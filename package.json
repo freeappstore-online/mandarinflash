@@ -1,0 +1,21 @@
+{
+  "name": "mandarinflash",
+  "private": true,
+  "packageManager": "pnpm@10.30.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  },
+  "scripts": {
+    "dev": "pnpm --filter @mandarinflash/web dev",
+    "build": "pnpm --filter @mandarinflash/web build",
+    "preview": "pnpm --filter @mandarinflash/web preview",
+    "typecheck": "pnpm --filter @mandarinflash/web exec tsc -b",
+    "test": "pnpm --filter @mandarinflash/web test"
+  }
+}
