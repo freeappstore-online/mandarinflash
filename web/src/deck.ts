@@ -1,0 +1,9 @@
+export const categories = ["Same pinyin, different tones", "Same sound & tone, different writing/meaning", "Look-alikes, different meaning", "Near-sounds (not homophones)"] as const;
+export type Card = { category: typeof categories[number]; items: { hanzi: string; pinyin: string; meaning: string }[]; note: string; target?: string };
+export const cards: Card[] = [
+  { category: categories[0], items: [{hanzi:"买", pinyin:"mǎi", meaning:"buy"}, {hanzi:"卖", pinyin:"mài", meaning:"sell"}], note:"卖 adds 十 (shí, ten) above 买. The syllable is mai in both; the tones differ." },
+  { category: categories[1], items: [{hanzi:"他", pinyin:"tā", meaning:"he / him"}, {hanzi:"她", pinyin:"tā", meaning:"she / her"}], note:"The left side changes: 亻 (person) in 他 and 女 (woman) in 她." },
+  { category: categories[1], items: [{hanzi:"权利", pinyin:"quánlì", meaning:"rights"}, {hanzi:"权力", pinyin:"quánlì", meaning:"power / authority"}], note:"Both start with 权; compare 利 (knife component 刂) with 力 (power).", target:"The differing character is 利 lì in 权利 and 力 lì in 权力. quánlì is the pronunciation of each whole word." },
+  { category: categories[2], items: [{hanzi:"未", pinyin:"wèi", meaning:"not yet"}, {hanzi:"末", pinyin:"mò", meaning:"end / tip"}], note:"In 未 the lower horizontal stroke is longer; in 末 the upper horizontal stroke is longer. Their readings differ too." },
+  { category: categories[3], items: [{hanzi:"四", pinyin:"sì", meaning:"four"}, {hanzi:"十", pinyin:"shí", meaning:"ten"}], note:"These are not homophones: sì begins with s and has a falling fourth tone; shí begins with sh and has a rising second tone. Their written forms differ completely." },
+];

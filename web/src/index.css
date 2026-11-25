@@ -137,3 +137,27 @@ body { padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-are
 img, video, canvas { max-width: 100%; }
 
 }
+
+@layer components {
+.deck-page { max-width: 76rem; margin: auto; padding: clamp(1rem, 4vw, 3rem); }
+.intro { max-width: 46rem; padding: 2rem 0 3rem; }
+.intro h1 { font-size: clamp(2.8rem, 8vw, 5.5rem); line-height: 1.02; letter-spacing: -.04em; margin: .5rem 0 1rem; }
+.intro p { font-size: 1.1rem; line-height: 1.6; color: var(--muted); }
+.intro .eyebrow, .category { color: var(--accent-deep); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+.filters { display: flex; flex-wrap: wrap; gap: .5rem; }
+button { cursor: pointer; }
+.filters button, .reveal { border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); padding: .7rem 1rem; border-radius: 2rem; font: inherit; font-size: .88rem; }
+.filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+.recall { display: flex; align-items: center; gap: .6rem; margin: 1.5rem 0; }
+.recall input { width: 1.25rem; height: 1.25rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 28rem), 1fr)); gap: 1rem; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 1.2rem; padding: clamp(1.2rem, 4vw, 2rem); }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 1.8rem 0; }
+.word { display: flex; flex-direction: column; gap: .25rem; }
+.hanzi { font-size: clamp(3.2rem, 9vw, 5rem); line-height: 1.2; color: var(--ink-strong); }
+.pinyin { font-size: 1.25rem; font-weight: 700; }
+.explanation { border-top: 1px solid var(--line-strong); padding-top: .8rem; line-height: 1.55; }
+footer { color: var(--muted); margin: 3rem 0 1rem; font-size: .85rem; } footer a { color: var(--accent-deep); text-decoration: underline; }
+
+}

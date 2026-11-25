@@ -1,55 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { initApp } from "@freeappstore/sdk";
-import { type NavItem, PageHeader, Shell } from "@freeappstore/sdk/ui";
+import { Shell, type NavItem } from "@freeappstore/sdk/ui";
+import { cards, categories } from "./deck";
 
-// "mandarinflash" is replaced by the CLI scaffold or deployment flow with this app's id.
 export const fas = initApp({ appId: "mandarinflash" });
-
-// The app's screens. Shell renders them as the navbar: a <nav> in its topbar
-// with the current screen highlighted, collapsing to a menu on phones.
-// Add one entry per primary screen; `title` becomes the browser tab title.
-const NAV: NavItem[] = [
-  { label: "Home", href: "/", title: "mandarinflash" },
-  { label: "About", href: "/about", title: "About — mandarinflash" },
-];
-
+const nav: NavItem[] = [{ label: "Cards", href: "/", title: "Mandarin Flash" }];
 export default function App() {
-  const [path, setPath] = useState(() => window.location.pathname);
-
-  // Keep the screen in step with the browser's back and forward buttons.
-  useEffect(() => {
-    const sync = () => setPath(window.location.pathname);
-    window.addEventListener("popstate", sync);
-    return () => window.removeEventListener("popstate", sync);
-  }, []);
-
-  // Nav clicks switch screens without a page load. Shell scrolls to the top
-  // and moves focus to the new screen's PageHeader.
-  const navigate = (href: string) => {
-    window.history.pushState(null, "", href);
-    setPath(window.location.pathname);
-  };
-
-  return (
-    <Shell app={fas} appName={"mandarinflash"} nav={NAV} onNavigate={navigate}>
-      <div className="mx-auto w-full max-w-3xl p-4 sm:p-8">
-        {path === "/about" ? <About /> : <Home />}
-      </div>
-    </Shell>
-  );
-}
-
-function Home() {
-  return <PageHeader title={"Welcome to mandarinflash"} description="Edit web/src/App.tsx to get started." />;
-}
-
-function About() {
-  return (
-    <>
-      <PageHeader title="About" />
-      <p style={{ color: "var(--muted)" }}>
-        mandarinflash is a free app on <a href="https://freeappstore.online">FreeAppStore</a>.
-      </p>
-    </>
-  );
+  const [selected, setSelected] = useState<string>("All");
+  const [recall, setRecall] = useState(false);
+  const [revealed, setRevealed] = useState<number[]>([]);
+  return <Shell app={fas} appName="Mandarin Flash" nav={nav}>
+    <main className="deck-page">
+      <header className="intro"><p className="eyebrow">A little Mandarin, clearly compared</p><h1>See the difference.</h1><p>Small visual clues make memorable connections. Compare the writing, sounds and meanings side by side.</p></header>
+      <section aria-labelledby="filter-heading"><h2 id="filter-heading">Explore the deck</h2><div className="filters" aria-label="Filter cards by category">{["All", ...categories].map(category => <button key={category} type="button" aria-pressed={selected === category} onClick={() => setSelected(category)}>{category}</button>)}</div>
+      <label className="recall"><input type="checkbox" checked={recall} onChange={e => {setRecall(e.target.checked); setRevealed([]);}} /> Practice recall: hide answers until revealed</label></section>
+      <div className="cards">{cards.map((card, index) => selected !== "All" && selected !== card.category ? null : <article className="card" key={index}><p className="category">{card.category}</p><div className="pair">{card.items.map(item => <div className="word" key={item.hanzi}><span className="hanzi" lang="zh-Hans">{item.hanzi}</span>{(!recall || revealed.includes(index)) && <><span className="pinyin">{item.pinyin}</span><span>{item.meaning}</span></>}</div>)}</div>{recall && !revealed.includes(index) ? <button className="reveal" onClick={() => setRevealed([...revealed, index])}>Reveal pronunciation and meaning</button> : <div className="explanation"><p><strong>Notice:</strong> {card.note}</p>{card.target && <p>{card.target}</p>}</div>}</article>)}</div>
+      <footer>Made for curious learners ? <a href="https://freeappstore.online">FreeAppStore</a><p>Readings and meanings checked against <a href="https://en.wiktionary.org/wiki/Appendix:HSK_list_of_Mandarin_words_v3.0/level_1">Wiktionary and its Mandarin word lists</a>.</p></footer>
+    </main>
+  </Shell>;
 }
